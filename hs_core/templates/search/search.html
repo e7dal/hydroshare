@@ -33,16 +33,16 @@
                 </div>
             </script>
 
-            <div id="demo" class="resource-search">
+            <div id="discover-search" class="resource-search">
 {#                <span class="glyphicon glyphicon-search search-icon"></span> #}
-               <form id="search" class="search-field">
-                     <input name="query" v-model="searchQuery" @click="searchClick">
-                </form>
-                <demo-grid
+               <div id="search" class="search-field">
+                     <input name="query" v-model="searchQuery" @keyup.enter="searchClick">
+                </div>
+                <discover-grid
                         :heroes="gridData"
                         :columns="gridColumns"
                         :filter-key="searchQuery">
-                </demo-grid>
+                </discover-grid>
             </div>
 
             <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
