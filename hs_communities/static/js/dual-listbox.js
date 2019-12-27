@@ -32,7 +32,11 @@ var TitleAssistantApp = new Vue({
             }
         },
         itemMoved: function () {  // User has selected some topics so concat them with commas for display
-            this.$data.topics.selectedValues = this.$data.topics.selectedItems.map(x => x.value).join(', ');
+            this.$data.topics.selectedValues = [];
+            this.$data.topics.selectedItems.forEach(function(x) {
+                this.$data.topics.selectedValues.push(x.value);
+            }.bind(this));
+            this.$data.topics.selectedValues = this.$data.topics.selectedValues.join(', ');
             this.updateTitle()
         },
         checkOngoing: function () {  // Checking Ongoing box indicates End Year contains the string Ongoing
@@ -40,7 +44,7 @@ var TitleAssistantApp = new Vue({
             this.updateTitle()
         },
         updateRegion: function () {
-            this.updateTitle(items.join(','))
+            this.updateTitle()
         },
         updateEndDate: function () {
             $("#end-date-ongoing").prop("checked", false);
