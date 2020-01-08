@@ -223,7 +223,8 @@
             },
             methods: {
                 raiseItemMoved: function _raiseItemMoved(item, targetList, listType) {
-                    this.lastMovedItem = {item: item, targetList, listType};
+                    this.lastMovedItem = {item: item, targetList: targetList, listType: listType};
+                    console.log(this.lastMovedItem);
                     this.$emit('item-moved', this.lastMovedItem);
                 },
             },
@@ -306,8 +307,11 @@
                     },
                     updateFilter: function () {
 
-                        let newUnselected = vm.itemsList.filter(n => !vm.selectedItems.includes(n));
-
+                        // let newUnselected = vm.itemsList.filter(n => !vm.selectedItems.includes(n));
+                        let newUnselected = vm.itemsList.filter(function(n) {
+                                !vm.selectedItems.includes(n)
+                            }
+                        );
                         if (vm.filterOn.length > 1) {
                             vm.unselectedItems = newUnselected.filter(function (item) {
                                 return item.value.toLocaleLowerCase().includes(vm.filterOn.toLocaleLowerCase());
