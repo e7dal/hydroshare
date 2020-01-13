@@ -323,7 +323,6 @@ def page_permissions_page_processor(request, page):
 
     return {
         'resource_type': cm._meta.verbose_name,
-        'bag': cm.bags.first(),
         "users_json": users_json,
         "owners": owners,
         "self_access_level": self_access_level,
@@ -1710,9 +1709,6 @@ class AbstractResource(ResourcePermissionsMixin, ResourceIRODSMixin):
                                           )
     file_unpack_message = models.TextField(null=True, blank=True)
 
-    # TODO: why are old versions saved?
-    bags = GenericRelation('hs_core.Bags', help_text='The bagits created from versions of '
-                                                     'this resource', for_concrete_model=True)
     short_id = models.CharField(max_length=32, default=short_id, db_index=True)
     doi = models.CharField(max_length=1024, null=True, blank=True, db_index=True,
                            help_text='Permanent identifier. Never changes once it\'s been set.')
@@ -1950,21 +1946,19 @@ class AbstractResource(ResourcePermissionsMixin, ResourceIRODSMixin):
         # must start with a / in order to concat with current_site_url.
         return '/' + os.path.join('resource', self.short_id, path)
 
-    def get_public_path(self, path):
-        """Return the public path for a specific path within the resource.
-           This is the path that appears in public URLs.
-           The input path includes data/contents/ as needed.
-        """
-        return os.path.join(self.short_id, path)
-
-    def get_irods_path(self, path):
+    def get_irods_path(self, path, prepend_short_id=True):
         """Return the irods path by which the given path is accessed.
            The input path includes data/contents/ as needed.
         """
-        if self.is_federated:
-            return os.path.join(self.resource_federation_path, self.get_public_path(path))
+        if prepend_short_id and not path.startswith(self.short_id):
+            full_path = os.path.join(self.short_id, path)
         else:
-            return self.get_public_path(path)
+            full_path = path
+
+        if self.is_federated:
+            return os.path.join(self.resource_federation_path, full_path)
+        else:
+            return full_path
 
     def set_quota_holder(self, setter, new_holder):
         """Set quota holder of the resource to new_holder who must be an owner.
@@ -3152,25 +3146,6 @@ class ResourceFile(ResourceFileIRODSMixin):
             return self.public_path
 
 
-class Bags(models.Model):
-    """Represent data bags format as django model."""
-
-    object_id = models.PositiveIntegerField()
-    content_type = models.ForeignKey(ContentType)
-
-    content_object = GenericForeignKey('content_type', 'object_id', for_concrete_model=False)
-    timestamp = models.DateTimeField(default=now, db_index=True)
-
-    class Meta:
-        """Define meta properties of Bags model."""
-
-        ordering = ['-timestamp']
-
-    def get_content_model(self):
-        """Return content model of Bags' content object."""
-        return self.content_object.get_content_model()
-
-
 class PublicResourceManager(models.Manager):
     """Extend Django model Manager to allow for public resource access."""
 
@@ -3199,11 +3174,11 @@ class BaseResource(Page, AbstractResource):
     # the time when the resource is locked for a new version action. A value of null
     # means the resource is not locked
     locked_time = models.DateTimeField(null=True, blank=True)
+
     # this resource_federation_path is added to record where a HydroShare resource is
     # stored. The default is empty string meaning the resource is stored in HydroShare
     # zone. If a resource is stored in a fedearated zone, the field should store the
     # federated root path in the format of /federated_zone/home/localHydroProxy
-
     # TODO: change to null=True, default=None to simplify logic elsewhere
     resource_federation_path = models.CharField(max_length=100, blank=True, default='')
 
@@ -3213,7 +3188,7 @@ class BaseResource(Page, AbstractResource):
 
     collections = models.ManyToManyField('BaseResource', related_name='resources')
 
-    discovery_content_type = 'Generic'  # used during discovery
+    discovery_content_type = 'Generic Resource'  # used during discovery
 
     class Meta:
         """Define meta properties for BaseResource model."""
@@ -3494,7 +3469,7 @@ class GenericResource(BaseResource):
         """Return True always."""
         return True
 
-    discovery_content_type = 'Generic'  # used during discovery
+    discovery_content_type = 'Generic Resource'  # used during discovery
 
     class Meta:
         """Define meta properties for GenericResource model."""
