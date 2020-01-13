@@ -819,33 +819,34 @@ var clearDates = function() {
 };
 
 function initializeTable() {
-    var RESOURCE_TYPE_COL = 0;
-    var TITLE_COL = 1;
-    var OWNER_COL = 2;
-    var DATE_CREATED_COL = 3;
-    var LAST_MODIFIED_COL = 4;
-
-    var colDefs = [
-        {
-            "targets": [RESOURCE_TYPE_COL],     // Resource type
-            "width": "110px"
-        },
-        {
-            "targets": [DATE_CREATED_COL]     // Date created
-        },
-        {
-            "targets": [LAST_MODIFIED_COL]     // Last modified
-        },
-    ];
-
-    $('#items-discovered').DataTable({
-        "paging": false,
-        "searching": false,
-        "info": false,
-        "ordering": false,
-        // "order": [[TITLE_COL, "asc"]],
-        "columnDefs": colDefs
-    });
+    console.log("skipping old datatables init")
+    // var RESOURCE_TYPE_COL = 0;
+    // var TITLE_COL = 1;
+    // var OWNER_COL = 2;
+    // var DATE_CREATED_COL = 3;
+    // var LAST_MODIFIED_COL = 4;
+    //
+    // var colDefs = [
+    //     {
+    //         "targets": [RESOURCE_TYPE_COL],     // Resource type
+    //         "width": "110px"
+    //     },
+    //     {
+    //         "targets": [DATE_CREATED_COL]     // Date created
+    //     },
+    //     {
+    //         "targets": [LAST_MODIFIED_COL]     // Last modified
+    //     },
+    // ];
+    //
+    // $('#items-discovered').DataTable({
+    //     "paging": false,
+    //     "searching": false,
+    //     "info": false,
+    //     "ordering": false,
+    //     // "order": [[TITLE_COL, "asc"]],
+    //     "columnDefs": colDefs
+    // });
 }
 
 $(document).ready(function () {
