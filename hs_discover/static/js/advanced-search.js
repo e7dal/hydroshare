@@ -1,5 +1,3 @@
-
-
 let AdvancedSearchApp = new Vue({
     el: '#advanced-discover-search',
     data: {

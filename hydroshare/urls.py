@@ -70,7 +70,7 @@ urlpatterns = i18n_patterns(
     url(r'^search/$', SearchView.as_view(), name='haystack_search'),
     url(r'^advanced-search/$', AdvancedSearchView.as_view(), name='advanced_search'),
     url(r'^topics/$', hs_communities.views.communities.TopicsView.as_view(), name='topics'),
-    url(r'^searchjson/$', DiscoveryJsonView.as_view(), name='haystack_json_search'),
+    # url(r'^searchjson/$', DiscoveryJsonView.as_view(), name='haystack_json_search'),
     url(r'^sitemap/$', sitemap, name='sitemap'),
     url(r'^sitemap', include('hs_sitemap.urls')),
     url(r'^groups', hs_core_views.FindGroupsView.as_view(), name='groups'),
