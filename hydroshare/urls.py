@@ -10,7 +10,8 @@ from mezzanine.pages.views import page
 
 from autocomplete_light import shortcuts as autocomplete_light
 
-from hs_discover.views.search_view import DiscoverView
+from hs_discover.views.search import SearchView
+from hs_discover.views.advanced_search import AdvancedSearchView
 from hs_core.views.discovery_json_view import DiscoveryJsonView
 from hs_sitemap.views import sitemap
 from theme import views as theme
@@ -66,7 +67,8 @@ urlpatterns = i18n_patterns(
     url(r'^verify/(?P<token>[0-9a-zA-Z:_\-]*)/', hs_core_views.verify),
     url(r'^django_irods/', include('django_irods.urls')),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
-    url(r'^search/$', DiscoverView.as_view(), name='haystack_search'),
+    url(r'^search/$', SearchView.as_view(), name='haystack_search'),
+    url(r'^advanced-search/$', AdvancedSearchView.as_view(), name='advanced_search'),
     url(r'^topics/$', hs_communities.views.communities.TopicsView.as_view(), name='topics'),
     url(r'^searchjson/$', DiscoveryJsonView.as_view(), name='haystack_json_search'),
     url(r'^sitemap/$', sitemap, name='sitemap'),

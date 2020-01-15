@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load pages_tags mezzanine_tags keyword_tags comment_tags hydroshare_tags %}
+{% block meta_title %}Discover{% endblock %}
+{% block main %}
+    <input type="hidden" id="static-url" value="{{ STATIC_URL }}">
+    <div class="container" id="discover-main">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="page-title">Search Results</h2>
+            </div>
+{#            <script type="text/x-template" id="grid-template">#}
+{#                <div style="margin-top: 3em">#}
+{#                    <a href="{% url 'advanced_search' %}">Advanced</a>#}
+{#                <table class="table-hover table-striped resource-custom-table" id="items-discovered">#}
+{#                    <thead>#}
+{#                    <tr>#}
+{#                        <th v-for="key in columns"#}
+{#                            @click="sortBy(key)"#}
+{#                            :class="{ active: sortKey == key }">#}
+{#                            {% templatetag openvariable %} key | capitalize {% templatetag closevariable %}#}
+{#                            <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>#}
+{#                        </th>#}
+{#                    </tr>#}
+{#                    </thead>#}
+{#                    <tbody>#}
+{#                    <tr v-for="entry in filteredHeroes">#}
+{#                        <td v-for="key in columns">#}
+{#                            {% templatetag openvariable %} entry[key]{% templatetag closevariable %}#}
+{#                        </td>#}
+{#                    </tr>#}
+{#                    </tbody>#}
+{#                </table>#}
+{#                </div>#}
+{#            </script>#}
+{##}
+{#            <div id="discover-search" class="resource-search">#}
+{#                <span class="glyphicon glyphicon-search search-icon"></span> #}
+{#               <div id="search" class="search-field">#}
+{#                     <input name="query" v-model="searchQuery" @keyup.enter="searchClick">#}
+{#                </div>#}
+{#                <discover-grid#}
+{#                        :heroes="gridData"#}
+{#                        :columns="gridColumns"#}
+{#                        :filter-key="searchQuery">#}
+{#                </discover-grid>#}
+{#            </div>#}
+{##}
+{#            <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>#}
+        {{ hits }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/vue-2.6.10-dev.js"></script>
+
+{% endblock %}

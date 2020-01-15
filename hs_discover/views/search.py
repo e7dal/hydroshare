@@ -17,19 +17,34 @@ from hs_communities.models import Topic
 from django.views.generic import TemplateView
 
 
-class DiscoverView(TemplateView):
+class SearchView(TemplateView):
     template_name = 'hs_discover/search.html'
 
-    def dispatch(self, *args, **kwargs):
-        return super(DiscoverView, self).dispatch(*args, **kwargs)
+    # def dispatch(self, *args, **kwargs):
+    #     return super(DiscoverView, self).dispatch(*args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        grpfilter = self.request.GET.get('grp')
+    # def get_context_data(self, **kwargs):
+    #     grpfilter = self.request.GET.get('grp')
+    #     u = User.objects.get(pk=self.request.user.id)
 
+    def get(self, request, *args, **kwargs):
         u = User.objects.get(pk=self.request.user.id)
+
         sample_data = "sample data"
 
-        return {
+        return render(request, 'hs_discover/search.html', {
             'user': u,
             'sample_data': sample_data
-        }
+        })
+
+    def post(self, request, *args, **kwargs):
+        u = User.objects.get(pk=self.request.user.id)
+
+        # perform haystack search
+
+        return render(request, 'hs_discover/search.html')
+
+    def get_topics_data(self, **kwargs):
+        topics = Topic.objects.all().values_list('id', 'name', flat=False).order_by('name')
+        topics = list(topics)  # force QuerySet evaluation
+        return mark_safe(escapejs(json.dumps(topics)))
