@@ -39,6 +39,7 @@ class AdvancedSearchView(TemplateView):
         u = User.objects.get(pk=self.request.user.id)
 
         # perform haystack search
+        print("hello world", request.POST.get('q'))
 
         return render(request, 'hs_discover/results.html', {
             'hits': "sample results"

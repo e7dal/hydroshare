@@ -31,13 +31,10 @@ let AdvancedSearchApp = new Vue({
     methods: {
         searchClick: function (csrf_token) {
             let formData = new FormData();
-            // Vue.set(topic, 'edit', false);
-            // TODO all the querystring params
             formData.append("csrfmiddlewaretoken", csrf_token);
             console.log(this.$data.searchQuery);
-            // formData.append("id", topic.val[0].toString());
-            // formData.append("name", topic.val[1].toString());
-            // formData.append("action", "UPDATE");
+            formData.append("q", this.$data.searchQuery);
+
             $.ajax({
                 type: "POST",
                 data: formData,
@@ -45,7 +42,7 @@ let AdvancedSearchApp = new Vue({
                 contentType: false,
                 url: "/advanced-search/",
                 success: function (response) {
-                    console.log(response.responseText)
+                    console.log("successful query post")
                 },
                 error: function (response) {
                     console.log(response.responseText);
