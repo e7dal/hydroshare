@@ -30,17 +30,33 @@ class SearchView(TemplateView):
 
         sample_data = json.dumps([
             {
-                'Title': 'SSCZO - Flux Tower, Meteorology - Flux Tower Transect, Soaproot Saddle (2009-2016)',
-                'Type': 'GenericResource',
-                'First Author': 'Kim Dailey',
-                'Date Created': 'Apr 23 2019 - 7:31am',
-                'Last Modified': 'Apr 23, 2019 - 8:12am'
+                "name": "SSCZO - Flux Tower, Meteorology - Flux Tower Transect, Soaproot Saddle (2009-2016)",
+                "type": "GenericResource",
+                "author": "Kim Dailey"
+            },
+            {
+                "name": "LCZO - Soil Biogeochemistry - landscape-scale soil biogeochemistry and enzymes - Bisley (2012)",
+                "type": "CollectionResource",
+                "author": "Roger Downs"
+            },
+            {
+                "name": "X-CZO - Flux Tower - AmeriFlux Network data - National (2007-2018)",
+                "type": "GenericResource",
+                "author": "Jill Hickey"
+            },
+            {
+                "name": "BCCZO - Precipitation - B1 Historical Precipitation Site (B1_Hist_Precip) - B1 Historical Site (1952-1964)",
+                "type": "GenericResource",
+                "author": "Ed Brown"
             }
         ])
 
+        # "Date Created": "Apr 23 2019 - 7:31am",
+        # "Last Modified": "Apr 23, 2019 - 8:12am"
+
         return render(request, 'hs_discover/search.html', {
             'user': u,
-            'sample_data': mark_safe(escapejs(sample_data))
+            'sample_data': sample_data
         })
 
     def post(self, request, *args, **kwargs):
