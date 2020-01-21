@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 from django.shortcuts import render
 import json
 
@@ -30,17 +28,15 @@ class SearchView(TemplateView):
     def get(self, request, *args, **kwargs):
         u = User.objects.get(pk=self.request.user.id)
 
-        # sample_data = {
-        #     {
-        #         'Title': 'SSCZO - Flux Tower, Meteorology - Flux Tower Transect, Soaproot Saddle (2009-2016)',
-        #         'Type': 'GenericResource',
-        #         'First Author': 'Kim Dailey',
-        #         'Date Created': 'Apr 23 2019 - 7:31am',
-        #         'Last Modified': 'Apr 23, 2019 - 8:12am'
-        #     }
-        # }
-        sample_data = "abc"
-        sample_data = json.dumps(sample_data)
+        sample_data = json.dumps([
+            {
+                'Title': 'SSCZO - Flux Tower, Meteorology - Flux Tower Transect, Soaproot Saddle (2009-2016)',
+                'Type': 'GenericResource',
+                'First Author': 'Kim Dailey',
+                'Date Created': 'Apr 23 2019 - 7:31am',
+                'Last Modified': 'Apr 23, 2019 - 8:12am'
+            }
+        ])
 
         return render(request, 'hs_discover/search.html', {
             'user': u,

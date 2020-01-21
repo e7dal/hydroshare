@@ -8,41 +8,20 @@
             <div class="col-sm-12">
                 <h2 class="page-title">New Discover</h2>
             </div>
-            <script type="text/x-template" id="grid-template">
-                <div style="margin-top: 3em">
-                    <a href="{% url 'advanced_search' %}">Advanced</a>
-                <table class="table-hover table-striped resource-custom-table" id="items-discovered">
-                    <thead>
-                    <tr>
-                        <th v-for="key in columns"
-                            @click="sortBy(key)"
-                            :class="{ active: sortKey == key }">
-                            {% templatetag openvariable %} key | capitalize {% templatetag closevariable %}
-                            <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="entry in filteredResources">
-                        <td v-for="key in columns">
-                            {% templatetag openvariable %} entry[key]{% templatetag closevariable %}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                </div>
-            </script>
 
             <div id="discover-search" class="resource-search">
-{#                <span class="glyphicon glyphicon-search search-icon"></span> #}
-               <div id="search" class="search-field">
-                     <input name="query" v-model="searchQuery" @keyup.enter="searchClick">
+                {# <span class="glyphicon glyphicon-search search-icon"></span> #}
+                <div id="search" class="search-field">
+                    <input name="query" v-model="searchQuery" @keyup.enter="searchClick"><br/>
+                    <a href="{% url 'advanced_search' %}">Advanced</a>
                 </div>
-                <discover-grid
-                        :resources="gridData"
-                        :columns="gridColumns"
-                        :filter-key="searchQuery">
-                </discover-grid>
+
+                <resource-listing sample="sample string data"
+                    :resources="gridData"
+                    :columns="gridColumns"
+                    :filter-key="searchQuery">
+                </resource-listing>
+
             </div>
 
             <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>

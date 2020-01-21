@@ -1,10 +1,30 @@
-Vue.component('discover-grid', {
-    template: '#grid-template',
-    props: {
-        resources: Array,
-        columns: Array,
-        filterKey: String
-    },
+Vue.component('resource-listing', {
+    props:
+        ['sample', 'columns', 'resources', 'filterKey'],
+    template: `
+        <div>
+        {{ sample }}
+        <table class="table-hover table-striped resource-custom-table" id="items-discovered">
+            <thead>
+            <tr>
+                <th v-for="key in columns"
+                    @click="sortBy(key)"
+                    :class="{ active: sortKey == key }">
+                    {{ key | capitalize }}
+                    <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="entry in filteredResources">
+                <td v-for="key in columns">
+                    {{ entry[key] }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+  `,
     data: function () {
         let sortOrders = {};
         this.columns.forEach(function (key) {
@@ -77,10 +97,11 @@ let DiscoverApp = new Vue({
                 type: 'GenericResource',
                 author: 'Ed Brown'
             }
-        ]
+        ],
     },
     methods: {
         searchClick: function (csrf_token, ev, topic) {
+            console.log(this.resourceData);
             let formData = new FormData();
             // Vue.set(topic, 'edit', false);
             // TODO all the querystring params
