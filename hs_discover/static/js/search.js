@@ -1,7 +1,7 @@
 Vue.component('discover-grid', {
     template: '#grid-template',
     props: {
-        heroes: Array,
+        resources: Array,
         columns: Array,
         filterKey: String
     },
@@ -16,26 +16,26 @@ Vue.component('discover-grid', {
         }
     },
     computed: {
-        filteredHeroes: function () {
+        filteredResources: function () {
             let sortKey = this.sortKey;
             let filterKey = this.filterKey && this.filterKey.toLowerCase();
             let order = this.sortOrders[sortKey] || 1;
-            let heroes = this.heroes;
+            let resources = this.resources;
             if (filterKey) {
-                heroes = heroes.filter(function (row) {
+                resources = resources.filter(function (row) {
                     return Object.keys(row).some(function (key) {
                         return String(row[key]).toLowerCase().indexOf(filterKey) > -1
                     })
                 })
             }
             if (sortKey) {
-                heroes = heroes.slice().sort(function (a, b) {
+                resources = resources.slice().sort(function (a, b) {
                     a = a[sortKey];
                     b = b[sortKey];
                     return (a === b ? 0 : a > b ? 1 : -1) * order
                 })
             }
-            return heroes
+            return resources
         }
     },
     filters: {

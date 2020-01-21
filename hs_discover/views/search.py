@@ -30,11 +30,21 @@ class SearchView(TemplateView):
     def get(self, request, *args, **kwargs):
         u = User.objects.get(pk=self.request.user.id)
 
-        sample_data = "sample data"
+        # sample_data = {
+        #     {
+        #         'Title': 'SSCZO - Flux Tower, Meteorology - Flux Tower Transect, Soaproot Saddle (2009-2016)',
+        #         'Type': 'GenericResource',
+        #         'First Author': 'Kim Dailey',
+        #         'Date Created': 'Apr 23 2019 - 7:31am',
+        #         'Last Modified': 'Apr 23, 2019 - 8:12am'
+        #     }
+        # }
+        sample_data = "abc"
+        sample_data = json.dumps(sample_data)
 
         return render(request, 'hs_discover/search.html', {
             'user': u,
-            'sample_data': sample_data
+            'sample_data': mark_safe(escapejs(sample_data))
         })
 
     def post(self, request, *args, **kwargs):
@@ -43,8 +53,3 @@ class SearchView(TemplateView):
         # perform haystack search
 
         return render(request, 'hs_discover/search.html')
-
-    def get_topics_data(self, **kwargs):
-        topics = Topic.objects.all().values_list('id', 'name', flat=False).order_by('name')
-        topics = list(topics)  # force QuerySet evaluation
-        return mark_safe(escapejs(json.dumps(topics)))
