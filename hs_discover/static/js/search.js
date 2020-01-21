@@ -77,7 +77,7 @@ let DiscoverApp = new Vue({
     el: '#discover-search',
     data: {
         searchQuery: '',
-        gridColumns: ['name', 'type', 'author'],
+        gridColumns: ['name', 'type', 'author', 'created', 'modified'],
 
     },
     methods: {
