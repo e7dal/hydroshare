@@ -216,6 +216,10 @@ class GenericLogicalFile(AbstractLogicalFile):
         else:
             return None
 
+    @property
+    def get_main_file(self):
+        return self.files.all().first()
+
     @classmethod
     def set_file_type(cls, resource, user, file_id=None, folder_path=None, extra_data={}):
         """

@@ -1130,6 +1130,11 @@ function isVirtualFolder(item) {
     return item.hasClass("fb-folder") && item.attr("data-logical-file-id") && !isFileSet;
 }
 
+function isSingleFile(item) {
+    item = $(item);
+    return item.find(".fb-logical-file-type").attr("data-logical-file-type") === "GenericLogicalFile";
+}
+
 function startDownload(zipped) {
     if (zipped === undefined) {
         zipped = false;
@@ -1147,6 +1152,7 @@ function startDownload(zipped) {
             let url = item.attr("data-url");
             let fileName = item.children(".fb-file-name").text();
             let itemIsVirtualFolder = isVirtualFolder(item.first());
+            let itemIsSingleFile = isSingleFile(item.first());
             let parameters = [];
 
             if (fileName.toUpperCase().endsWith(".URL")) {
@@ -1157,7 +1163,7 @@ function startDownload(zipped) {
                 parameters.push("zipped=true");
             }
 
-            if (itemIsVirtualFolder) {
+            if (itemIsVirtualFolder || itemIsSingleFile) {
                 parameters.push("aggregation=true");
             }
 
