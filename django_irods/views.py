@@ -118,20 +118,22 @@ def download(request, path, rest_call=False, use_async=True, use_reverse_proxy=T
                 # +1 to remove trailing slash
                 aggregation_name = path[len(prefix)+1:]
             aggregation = res.get_aggregation_by_aggregation_name(aggregation_name)
-            if not is_zip_request:
-                download_url = request.GET.get('url_download', 'false').lower()
-                if download_url == 'false':
-                    # redirect to referenced url in the url file instead
-                    if hasattr(aggregation, 'redirect_url'):
-                        return HttpResponseRedirect(aggregation.redirect_url)
-            # point to the main file path
-            path = aggregation.get_main_file.url[len("/resource/"):]
-            is_zip_request = True
-            daily_date = datetime.datetime.today().strftime('%Y-%m-%d')
-            output_path = "zips/{}/{}/{}.zip".format(daily_date, uuid4().hex, path)
+            # single file aggregations are the only aggregation that don't force a zip when downloaded
+            if not aggregation.get_aggregation_type_name() == "SingleFileAggregation":
+                if not is_zip_request:
+                    download_url = request.GET.get('url_download', 'false').lower()
+                    if download_url == 'false':
+                        # redirect to referenced url in the url file instead
+                        if hasattr(aggregation, 'redirect_url'):
+                            return HttpResponseRedirect(aggregation.redirect_url)
+                # point to the main file path
+                path = aggregation.get_main_file.url[len("/resource/"):]
+                is_zip_request = True
+                daily_date = datetime.datetime.today().strftime('%Y-%m-%d')
+                output_path = "zips/{}/{}/{}.zip".format(daily_date, uuid4().hex, path)
 
-            irods_path = res.get_irods_path(path, prepend_short_id=False)
-            irods_output_path = res.get_irods_path(output_path, prepend_short_id=False)
+                irods_path = res.get_irods_path(path, prepend_short_id=False)
+                irods_output_path = res.get_irods_path(output_path, prepend_short_id=False)
 
         store_path = '/'.join(split_path_strs[1:])  # data/contents/{path-to-something}
         if res.is_folder(store_path):  # automatically zip folders
