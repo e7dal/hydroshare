@@ -3,7 +3,6 @@ Vue.component('resource-listing', {
         ['sample', 'columns', 'resources', 'filterKey'],
     template: `
         <div>
-        {{ sample }}
         <table class="table-hover table-striped resource-custom-table" id="items-discovered">
             <thead>
             <tr>
@@ -23,8 +22,7 @@ Vue.component('resource-listing', {
             </tr>
             </tbody>
         </table>
-        </div>
-  `,
+        </div>`,
     data: function () {
         let sortOrders = {};
         this.columns.forEach(function (key) {
@@ -40,9 +38,8 @@ Vue.component('resource-listing', {
             let sortKey = this.sortKey;
             let filterKey = this.filterKey && this.filterKey.toLowerCase();
             let order = this.sortOrders[sortKey] || 1;
-            // let resources = this.resources;
             let resources = JSON.parse(this.sample);
-            console.log(resources)
+            // console.log(resources);
             if (filterKey) {
                 resources = resources.filter(function (row) {
                     return Object.keys(row).some(function (key) {
@@ -81,23 +78,18 @@ let DiscoverApp = new Vue({
 
     },
     methods: {
-        searchClick: function (csrf_token, ev, topic) {
-            console.log(this.resourceData);
+        searchClick: function (csrf_token) {
             let formData = new FormData();
-            // Vue.set(topic, 'edit', false);
-            // TODO all the querystring params
             formData.append("csrfmiddlewaretoken", csrf_token);
-            formData.append("id", topic.val[0].toString());
-            formData.append("name", topic.val[1].toString());
-            formData.append("action", "UPDATE");
+            formData.append("q", this.searchQuery);
             $.ajax({
                 type: "POST",
                 data: formData,
                 processData: false,
                 contentType: false,
-                url: "/the_endpoint_for_discover/",
+                url: "/search/",
                 success: function (response) {
-                    // do nothing
+                    console.log("Successful post")
                 },
                 error: function (response) {
                     console.log(response.responseText);

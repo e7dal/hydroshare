@@ -12,7 +12,7 @@
             <div id="discover-search" class="resource-search">
                 {# <span class="glyphicon glyphicon-search search-icon"></span> #}
                 <div id="search" class="search-field">
-                    <input name="query" v-model="searchQuery" @keyup.enter="searchClick"><br/>
+                    <input name="query" v-model="searchQuery" @keyup.enter="searchClick('{{ csrf_token }}')"><br/>
                     <a href="{% url 'advanced_search' %}">Advanced</a>
                 </div>
 
