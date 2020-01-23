@@ -1,0 +1,11 @@
+#search {
+    position: relative;
+}
+
+#search input {
+    padding-left: 25px;
+}
+
+#items-discovered {
+    margin-top: 1em;
+}

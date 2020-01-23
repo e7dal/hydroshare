@@ -5,32 +5,32 @@
     <input type="hidden" id="static-url" value="{{ STATIC_URL }}">
     <div class="container" id="discover-main">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-12">
                 <h2 class="page-title">New Discover</h2>
             </div>
 
-            <div id="discover-search" class="resource-search">
-                {# <span class="glyphicon glyphicon-search search-icon"></span> #}
+            <div class="col-12" id="discover-search">
                 <div id="search" class="search-field">
-                    <input name="query" v-model="searchQuery" @keyup.enter="searchClick('{{ csrf_token }}')"><br/>
-                    <a href="{% url 'advanced_search' %}">Advanced</a>
+                    <span class="glyphicon glyphicon-search search-icon"></span>
+                    <input class="form-control" name="query" v-model="searchQuery"
+                           @keyup.enter="searchClick('{{ csrf_token }}')">
                 </div>
+                <a href="{% url 'advanced_search' %}">Advanced</a>
 
                 <resource-listing sample="{{ sample_data }}"
                     :columns="gridColumns"
                     :filter-key="searchQuery">
                 </resource-listing>
-
             </div>
 
             <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
-
         </div>
     </div>
 {% endblock %}
 
 {% block extra_css %}
     {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="../../static/css/search.css"/>
 {% endblock %}
 
 {% block extra_js %}
