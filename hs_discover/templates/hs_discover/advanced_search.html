@@ -5,45 +5,74 @@
     <input type="hidden" id="static-url" value="{{ STATIC_URL }}">
     <div class="container" id="discover-main">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-12">
                 <h2 class="page-title">Advanced Search</h2>
             </div>
-            <a href="{% url 'search' %}">Basic</a>
-            <form>
-                <label>
-                    <input type="text" name="Author">
-                </label><label for="Author">Author</label><br/>
-                <label>
-                    <input type="text" name="Contributor">
-                </label><label for="Contributor">Contributor</label><br/>
-                <label>
-                    <input type="text" name="Owner">
-                </label><label for="Owner">Owner</label><br/>
-                <label>
-                    <input type="text" name="Content Type">
-                </label><label for="Content Type">Content Type</label><br/>
-                <label>
-                    <input type="text" name="Subject">
-                </label><label for="Subject">Subject</label><br/>
-                <label>
-                    <input type="text" name="Availability">
-                </label><label for="Availability">Availability</label><br/>
-            </form>
-            <div id="advanced-discover-search" class="resource-search">
-                {#                <span class="glyphicon glyphicon-search search-icon"></span>#}
+
+            <div id="advanced-discover-search">
                 <div id="search" class="search-field">
-                    <input name="query" v-model="searchQuery" @keyup.enter="searchClick('{{ csrf_token }}')">
+                    <span class="glyphicon glyphicon-search search-icon"></span>
+                    <input class="form-control" name="query" v-model="searchQuery"
+                           @keyup.enter="searchClick('{{ csrf_token }}')">
                 </div>
             </div>
 
-            <script type="text/javascript" src="{{ STATIC_URL }}js/advanced-search.js"></script>
+             <a href="{% url 'search' %}">Basic</a>
 
+            <form id="advanced-search-items">
+                <div class="control-group">
+                    <fieldset>
+                        <label for="Author" class="control-label">Author</label>
+                        <div class="controls">
+                            <input class="form-control" type="text" name="Author">
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <label for="Contributor" class="control-label">Contributor</label>
+                        <div class="controls">
+                            <input class="form-control" type="text" name="Contributor">
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <label for="Owner" class="control-label">Owner</label>
+                        <div class="controls">
+                            <input class="form-control" type="text" name="Owner">
+                        </div>
+                    </fieldset>
+
+                     <fieldset>
+                        <label for="Content Type" class="control-label">Content Type</label>
+                        <div class="controls">
+                            <input class="form-control" type="text" name="Content Type">
+                        </div>
+                    </fieldset>
+
+                     <fieldset>
+                        <label for="Subject" class="control-label">Subject</label>
+                        <div class="controls">
+                            <input class="form-control" type="text" name="Subject">
+                        </div>
+                    </fieldset>
+
+                     <fieldset>
+                        <label for="Availability" class="control-label">Availability</label>
+                        <div class="controls">
+                            <input class="form-control" type="text" name="Availability">
+                        </div>
+                    </fieldset>
+                </div>
+            </form>
+
+            <script type="text/javascript" src="{{ STATIC_URL }}js/advanced-search.js"></script>
         </div>
     </div>
 {% endblock %}
 
 {% block extra_css %}
     {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="../../static/css/search.css"/>
 {% endblock %}
 
 {% block extra_js %}
