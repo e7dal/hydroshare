@@ -8,8 +8,13 @@ from haystack.query import SearchQuerySet
 class SearchView(TemplateView):
 
     def get(self, request, *args, **kwargs):
+        q = request.GET.get('q') if request.GET.get('q') else ""
 
-        sqs = SearchQuerySet().all()
+        if q:
+            sqs = SearchQuerySet().filter(content=q)
+        else:
+            sqs = SearchQuerySet().all()
+
         total_results = sqs.count()
 
         resources = []
@@ -58,11 +63,12 @@ class SearchView(TemplateView):
         #     }
         # ])
 
+
         if request.GET.get('mode') == 'advanced':
             return render(request, 'hs_discover/advanced_search.html')
         else:
             return render(request, 'hs_discover/search.html', {
                 'resources': resources,
-                'q': request.GET.get('q'),
+                'q': q,
                 'initialitemcount': initialitemcount
             })  # TODO refactor and use information in the View to calculate this initial value or go even deeper into the js and capture there

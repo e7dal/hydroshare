@@ -3,9 +3,9 @@ Vue.component('resource-listing', {
         ['sample', 'itemcount', 'columns', 'resources', 'filterKey'],
     template: `
         <div>
-            <p class="items-counter">
-                {{ numItems }} items
-            </p>
+<!--            <p class="items-counter">-->
+<!--                {{ numItems }} items-->
+<!--            </p>-->
         <table class="table-hover table-striped resource-custom-table" id="items-discovered">
             <thead>
             <tr>
@@ -93,10 +93,11 @@ let DiscoverApp = new Vue({
         gridColumns: ['name', 'link', 'type', 'availability', 'author', 'author_link', 'created', 'modified'],
     },
     beforeMount: function() {
-            this.$data.searchQuery = this.$data.q;
+        this.$data.searchQuery = q;
     },
     methods: {
         searchClick: function (csrf_token) {
+            window.location="/search/?q="+this.$data.searchQuery  // TODO validation or complete refactor anyway
             // console.log(this)
             // let formData = new FormData();
             // formData.append("csrfmiddlewaretoken", csrf_token);
