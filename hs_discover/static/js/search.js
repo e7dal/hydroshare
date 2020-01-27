@@ -1,6 +1,6 @@
 Vue.component('resource-listing', {
     props:
-        ['sample', 'columns', 'resources', 'filterKey'],
+        ['sample', 'itemcount', 'columns', 'resources', 'filterKey'],
     template: `
         <div>
             <p class="items-counter">
@@ -36,7 +36,7 @@ Vue.component('resource-listing', {
         </table>
         </div>`,
     data: function () {
-        this.numItems = 0;  // TODO beforemount or otherwise CTOR?
+        this.itemcount ? this.numItems = this.itemcount : this.numItems = 0;
         let sortOrders = {};
         this.columns.forEach(function (key) {
           sortOrders[key] = 1
@@ -66,9 +66,8 @@ Vue.component('resource-listing', {
                     return (a === b ? 0 : a > b ? 1 : -1) * order
                 })
             }
-
+            // Vue.set('numItems', 2);
             this.numItems = resources.length;
-
             return resources
         }
     },
@@ -98,7 +97,7 @@ let DiscoverApp = new Vue({
     },
     methods: {
         searchClick: function (csrf_token) {
-            // console.log(this.sample)
+            // console.log(this)
             // let formData = new FormData();
             // formData.append("csrfmiddlewaretoken", csrf_token);
             // formData.append("q", this.searchQuery);

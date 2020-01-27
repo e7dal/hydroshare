@@ -17,7 +17,7 @@
                 </div>
                 <a href="{% url 'search' %}?mode=advanced">Advanced</a>
 
-                <resource-listing sample="{{ resources }}"
+                <resource-listing sample="{{ resources }}" itemcount="{{ initialitemcount }}"
                     :columns="gridColumns"
                     :filter-key="searchQuery">
                 </resource-listing>

@@ -25,7 +25,7 @@ class SearchView(TemplateView):
                 "created": str(result.created),
                 "modified": str(result.modified)
             })
-
+        initialitemcount = len(resources)
         resources = json.dumps(resources)
         # sample_data = json.dumps([
         #     {
@@ -63,5 +63,6 @@ class SearchView(TemplateView):
         else:
             return render(request, 'hs_discover/search.html', {
                 'resources': resources,
-                'q': request.GET.get('q')
-            })
+                'q': request.GET.get('q'),
+                'initialitemcount': initialitemcount
+            })  # TODO refactor and use information in the View to calculate this initial value or go even deeper into the js and capture there
