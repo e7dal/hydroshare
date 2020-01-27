@@ -15,7 +15,9 @@
                     <input class="form-control" name="query" v-model="searchQuery"
                            @keyup.enter="searchClick('{{ csrf_token }}')">
                 </div>
-{#                {% templatetag openvariable %} numtest {% templatetag closevariable %}#}
+                {% if q %}
+                    <br/>Searched: {{ q }}<br/>
+                {% endif %}
                 <a href="{% url 'search' %}?mode=advanced">Advanced</a>
 
                 <resource-listing sample="{{ resources }}" itemcount="{{ initialitemcount }}"
