@@ -16,9 +16,18 @@ Vue.component('resource-listing', {
             </thead>
             <tbody>
             <tr v-for="entry in filteredResources">
-                <td v-for="key in columns">
-                    {{ entry[key] }}
+                <td>
+                    <a v-bind:href="entry.link">{{ entry.name }}</a>
                 </td>
+                <td></td>  <!-- temporary placeholder for link column, until header display approach is refactored -->
+                <td>{{ entry.type }}</td>
+                <td>{{ entry.availability }}</td>
+                <td>
+                    <a v-bind:href="entry.author_link">{{ entry.author }}</a>
+                </td>
+                <td></td>  <!-- temporary placeholder for link column, until header display approach is refactored -->
+                <td>{{ entry.created }}</td>
+                <td>{{ entry.modified }}</td>
             </tr>
             </tbody>
         </table>
@@ -38,8 +47,7 @@ Vue.component('resource-listing', {
             let sortKey = this.sortKey;
             let filterKey = this.filterKey && this.filterKey.toLowerCase();
             let order = this.sortOrders[sortKey] || 1;
-            let resources = JSON.parse(this.sample);
-            // console.log(resources);
+            let resources = JSON.parse(this.sample);  // TODO validation, security, error handling
             if (filterKey) {
                 resources = resources.filter(function (row) {
                     return Object.keys(row).some(function (key) {
@@ -47,6 +55,7 @@ Vue.component('resource-listing', {
                     })
                 })
             }
+            // console.log(resources);
             if (sortKey) {
                 resources = resources.slice().sort(function (a, b) {
                     a = a[sortKey];
@@ -59,7 +68,9 @@ Vue.component('resource-listing', {
     },
     filters: {
         capitalize: function (str) {
-            return str.charAt(0).toUpperCase() + str.slice(1)
+            if (str !== "link" && str !== "author_link") {  // TODO instead of iterating through headings, explicitly choose and display
+                return str.charAt(0).toUpperCase() + str.slice(1)
+            }
         }
     },
     methods: {
@@ -74,7 +85,7 @@ let DiscoverApp = new Vue({
     el: '#discover-search',
     data: {
         searchQuery: '',
-        gridColumns: ['name', 'type', 'author', 'created', 'modified']
+        gridColumns: ['name', 'link', 'type', 'availability', 'author', 'author_link', 'created', 'modified']
     },
     beforeMount: function() {
             this.$data.searchQuery = this.$data.q

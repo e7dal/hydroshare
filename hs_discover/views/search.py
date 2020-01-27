@@ -17,8 +17,11 @@ class SearchView(TemplateView):
         for result in sqs:
             resources.append({
                 "name": result.title,
+                "link": result.absolute_url,
+                "availability": result.availability,
                 "type": result.resource_type_exact,
                 "author": result.author,
+                "author_link": result.author_url,
                 "created": str(result.created),
                 "modified": str(result.modified)
             })
