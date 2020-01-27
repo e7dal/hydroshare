@@ -22,7 +22,7 @@ class SearchView(TemplateView):
     #     u = User.objects.get(pk=self.request.user.id)
 
     def get(self, request, *args, **kwargs):
-        u = User.objects.get(pk=self.request.user.id)
+        # u = User.objects.get(pk=self.request.user.id)
 
         sqs = SearchQuerySet().all()
 
@@ -70,7 +70,7 @@ class SearchView(TemplateView):
         # ])
 
         return render(request, 'hs_discover/search.html', {
-            'user': u,
+            # 'user': u,
             'sample_data': sample_data
         })
 

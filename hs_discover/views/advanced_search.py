@@ -18,21 +18,22 @@ class AdvancedSearchView(TemplateView):
     #     u = User.objects.get(pk=self.request.user.id)
 
     def get(self, request, *args, **kwargs):
-        u = User.objects.get(pk=self.request.user.id)
+        # u = User.objects.get(pk=self.request.user.id)
 
         sample_data = "sample data"
 
         return render(request, 'hs_discover/advanced_search.html', {
-            'user': u,
+            # 'user': u,
             'sample_data': sample_data
         })
 
     def post(self, request, *args, **kwargs):
-        # u = User.objects.get(pk=self.request.user.id)
+        # sqs = SearchQuerySet().all()
+        # total_results = sqs.count()
+        print("POST - ADVANCED SEARCH", request.POST.get('q'))
 
-        # perform haystack search
-        print("hello world", request.POST.get('q'))
+        return redirect('/', request)
 
-        return render(request, 'hs_discover/results.html', {
-            'hits': "sample results"
-        })
+        # return render(request, 'hs_discover/search.html', {
+        #     "hits": "sample results"
+        # })

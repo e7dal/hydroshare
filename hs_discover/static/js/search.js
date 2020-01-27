@@ -75,7 +75,6 @@ let DiscoverApp = new Vue({
     data: {
         searchQuery: '',
         gridColumns: ['name', 'type', 'author', 'created', 'modified'],
-
     },
     methods: {
         searchClick: function (csrf_token) {
