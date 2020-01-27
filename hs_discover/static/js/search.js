@@ -74,26 +74,31 @@ let DiscoverApp = new Vue({
     el: '#discover-search',
     data: {
         searchQuery: '',
-        gridColumns: ['name', 'type', 'author', 'created', 'modified'],
+        gridColumns: ['name', 'type', 'author', 'created', 'modified']
+    },
+    beforeMount: function() {
+            this.$data.searchQuery = this.$data.q
     },
     methods: {
+
         searchClick: function (csrf_token) {
-            let formData = new FormData();
-            formData.append("csrfmiddlewaretoken", csrf_token);
-            formData.append("q", this.searchQuery);
-            $.ajax({
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                url: "/search/",
-                success: function (response) {
-                    console.log("Successful post")
-                },
-                error: function (response) {
-                    console.log(response.responseText);
-                }
-            });
+            console.log(this.$data.searchQuery)
+            // let formData = new FormData();
+            // formData.append("csrfmiddlewaretoken", csrf_token);
+            // formData.append("q", this.searchQuery);
+            // $.ajax({
+            //     type: "POST",
+            //     data: formData,
+            //     processData: false,
+            //     contentType: false,
+            //     url: "/search/",
+            //     success: function (response) {
+            //         console.log("Successful post")
+            //     },
+            //     error: function (response) {
+            //         console.log(response.responseText);
+            //     }
+            // });
         }
     }
 });

@@ -30,22 +30,25 @@ let AdvancedSearchApp = new Vue({
         searchClick: function (csrf_token) {
             let formData = new FormData();
             formData.append("csrfmiddlewaretoken", csrf_token);
-            console.log(this.$data.searchQuery);
+            // console.log(this.$data.searchQuery);
             formData.append("q", this.$data.searchQuery);
 
-            $.ajax({
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                url: "/advanced-search/",
-                success: function (response) {
-                    console.log("successful advanced search post")
-                },
-                error: function (response) {
-                    console.log(response.responseText);
-                }
-            });
+            // TODO revisit for alternative approaches
+            window.location="/search/?q=" + this.$data.searchQuery
+
+            // $.ajax({
+            //     type: "GET",
+            //     data: formData,
+            //     processData: false,
+            //     contentType: false,
+            //     url: "/search/",
+            //     success: function (response) {
+            //         console.log("successful search")
+            //     },
+            //     error: function (response) {
+            //         console.log(response.responseText);
+            //     }
+            // });
         }
     }
 });

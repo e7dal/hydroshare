@@ -15,9 +15,9 @@
                     <input class="form-control" name="query" v-model="searchQuery"
                            @keyup.enter="searchClick('{{ csrf_token }}')">
                 </div>
-                <a href="{% url 'advanced_search' %}">Advanced</a>
+                <a href="{% url 'search' %}?mode=advanced">Advanced</a>
 
-                <resource-listing sample="{{ sample_data }}"
+                <resource-listing sample="{{ resources }}"
                     :columns="gridColumns"
                     :filter-key="searchQuery">
                 </resource-listing>
@@ -30,7 +30,7 @@
 
 {% block extra_css %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="../../static/css/search.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/search.css"/>
 {% endblock %}
 
 {% block extra_js %}

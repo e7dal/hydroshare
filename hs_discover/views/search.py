@@ -1,30 +1,16 @@
-from django.shortcuts import render
 import json
 
-from django.contrib.auth.models import Group, User
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from haystack.generic_views import FacetedSearchView
-from haystack.generic_views import FacetedSearchMixin
-from hs_core.discovery_form import DiscoveryForm, FACETS_TO_SHOW
 from haystack.query import SearchQuerySet
-from django.conf import settings
 
 
 class SearchView(TemplateView):
-    template_name = 'hs_discover/search.html'
-
-    # def dispatch(self, *args, **kwargs):
-    #     return super(DiscoverView, self).dispatch(*args, **kwargs)
-
-    # def get_context_data(self, **kwargs):
-    #     grpfilter = self.request.GET.get('grp')
-    #     u = User.objects.get(pk=self.request.user.id)
 
     def get(self, request, *args, **kwargs):
-        # u = User.objects.get(pk=self.request.user.id)
 
         sqs = SearchQuerySet().all()
+        total_results = sqs.count()
 
         resources = []
         # TODO error handling and try except
@@ -37,7 +23,7 @@ class SearchView(TemplateView):
                 "modified": str(result.modified)
             })
 
-        sample_data = json.dumps(resources)
+        resources = json.dumps(resources)
         # sample_data = json.dumps([
         #     {
         #         "name": "SSCZO - Flux Tower, Meteorology - Flux Tower Transect, Soaproot Saddle (2009-2016)",
@@ -69,15 +55,10 @@ class SearchView(TemplateView):
         #     }
         # ])
 
-        return render(request, 'hs_discover/search.html', {
-            # 'user': u,
-            'sample_data': sample_data
-        })
-
-    def post(self, request, *args, **kwargs):
-        # u = User.objects.get(pk=self.request.user.id)
-        sqs = SearchQuerySet().all()
-
-        total_results = sqs.count()
-        print("hello world", total_results)
-        return render(request, 'hs_discover/search.html')
+        if request.GET.get('mode') == 'advanced':
+            return render(request, 'hs_discover/advanced_search.html')
+        else:
+            return render(request, 'hs_discover/search.html', {
+                'resources': resources,
+                'q': request.GET.get('q')
+            })
