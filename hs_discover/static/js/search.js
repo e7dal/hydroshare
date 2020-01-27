@@ -3,6 +3,9 @@ Vue.component('resource-listing', {
         ['sample', 'columns', 'resources', 'filterKey'],
     template: `
         <div>
+            <p class="items-counter">
+                {{ numItems }} items
+            </p>
         <table class="table-hover table-striped resource-custom-table" id="items-discovered">
             <thead>
             <tr>
@@ -33,6 +36,7 @@ Vue.component('resource-listing', {
         </table>
         </div>`,
     data: function () {
+        this.numItems = 0;  // TODO beforemount or otherwise CTOR?
         let sortOrders = {};
         this.columns.forEach(function (key) {
           sortOrders[key] = 1
@@ -55,7 +59,6 @@ Vue.component('resource-listing', {
                     })
                 })
             }
-            // console.log(resources);
             if (sortKey) {
                 resources = resources.slice().sort(function (a, b) {
                     a = a[sortKey];
@@ -63,6 +66,9 @@ Vue.component('resource-listing', {
                     return (a === b ? 0 : a > b ? 1 : -1) * order
                 })
             }
+
+            this.numItems = resources.length;
+
             return resources
         }
     },
@@ -85,15 +91,14 @@ let DiscoverApp = new Vue({
     el: '#discover-search',
     data: {
         searchQuery: '',
-        gridColumns: ['name', 'link', 'type', 'availability', 'author', 'author_link', 'created', 'modified']
+        gridColumns: ['name', 'link', 'type', 'availability', 'author', 'author_link', 'created', 'modified'],
     },
     beforeMount: function() {
-            this.$data.searchQuery = this.$data.q
+            this.$data.searchQuery = this.$data.q;
     },
     methods: {
-
         searchClick: function (csrf_token) {
-            console.log(this.$data.searchQuery)
+            // console.log(this.sample)
             // let formData = new FormData();
             // formData.append("csrfmiddlewaretoken", csrf_token);
             // formData.append("q", this.searchQuery);
