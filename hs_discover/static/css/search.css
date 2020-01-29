@@ -1,7 +1,5 @@
 #wrapper {
-  padding-top: 50px;
-  width: 400px;
-  margin: 0 auto 0 auto;
+  width: 600px;
 }
 
 #search {
@@ -9,7 +7,7 @@
 }
 
 #search input {
-    padding-left: 25px;
+    padding-left: 25px; width: 600px;
 }
 
 #items-discovered {

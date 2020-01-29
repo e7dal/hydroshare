@@ -16,10 +16,11 @@ class SearchView(TemplateView):
             sqs = SearchQuerySet().all()
 
         total_results = sqs.count()
-
+        vocab = []
         resources = []
         # TODO error handling and try except
         for result in sqs:
+            vocab.extend(result.title.split(' '))
             resources.append({
                 "name": result.title,
                 "link": result.absolute_url,
@@ -30,6 +31,9 @@ class SearchView(TemplateView):
                 "created": str(result.created),
                 "modified": str(result.modified)
             })
+        vocab = [x for x in vocab if len(x) > 2]
+        vocab = list(set(vocab))
+        vocab = sorted(vocab)
         initialitemcount = len(resources)
         resources = json.dumps(resources)
         # sample_data = json.dumps([
@@ -70,5 +74,6 @@ class SearchView(TemplateView):
             return render(request, 'hs_discover/search.html', {
                 'resources': resources,
                 'q': q,
-                'initialitemcount': initialitemcount
+                'initialitemcount': initialitemcount,
+                'vocab': vocab
             })  # TODO refactor and use information in the View to calculate this initial value or go even deeper into the js and capture there

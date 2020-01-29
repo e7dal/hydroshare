@@ -9,17 +9,15 @@
                 <h2 class="page-title">New Discover</h2>
             </div>
 
-
-
             <div class="col-12" id="discover-search">
             <div id="wrapper">
                 <div id="search" class="search-field" @keyup.enter="searchClick('{{ csrf_token }}')">
-{#                    <span class="glyphicon glyphicon-search search-icon"></span>#}
+
 {#                    <input class="form-control" name="query" v-model="searchQuery"#}
 {#                           @keyup.enter="searchClick('{{ csrf_token }}')">#}
                     <vue-bootstrap-typeahead
                         {#  https://github.com/alexurquhart/vue-bootstrap-typeahead#}
-                        :data="['czo', 'asdf', '2017']"
+                        :data="{{ vocab }}"
                         v-model="searchQuery"
                         {#  Undocumented https://github.com/alexurquhart/vue-bootstrap-typeahead/issues/19#}
                         ref="searchQuery"
@@ -27,10 +25,13 @@
                         @hit="searchClick('{{ csrf_token }}')"
                         placeholder="">
                     </vue-bootstrap-typeahead>
+                    <span class="glyphicon glyphicon-search search-icon"></span>
                 </div>
             </div>
                 {% if q %}
-                    <br/>Searched: {{ q }}<br/>
+                    <br/>
+                    Searched: <a href="/search/">{{ q }}</a>
+                    <br/>
                 {% endif %}
                 <a href="{% url 'search' %}?mode=advanced">Advanced</a>
 
