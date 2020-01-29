@@ -9,21 +9,37 @@
                 <h2 class="page-title">New Discover</h2>
             </div>
 
+
+
             <div class="col-12" id="discover-search">
-                <div id="search" class="search-field">
-                    <span class="glyphicon glyphicon-search search-icon"></span>
-                    <input class="form-control" name="query" v-model="searchQuery"
-                           @keyup.enter="searchClick('{{ csrf_token }}')">
+            <div id="wrapper">
+                <div id="search" class="search-field" @keyup.enter="searchClick('{{ csrf_token }}')">
+{#                    <span class="glyphicon glyphicon-search search-icon"></span>#}
+{#                    <input class="form-control" name="query" v-model="searchQuery"#}
+{#                           @keyup.enter="searchClick('{{ csrf_token }}')">#}
+                    <vue-bootstrap-typeahead
+                        {#  https://github.com/alexurquhart/vue-bootstrap-typeahead#}
+                        :data="['czo', 'asdf', '2017']"
+                        v-model="searchQuery"
+                        {#  Undocumented https://github.com/alexurquhart/vue-bootstrap-typeahead/issues/19#}
+                        ref="searchQuery"
+    {#                    input-class="typeahead-search-input"#}
+                        @hit="searchClick('{{ csrf_token }}')"
+                        placeholder="">
+                    </vue-bootstrap-typeahead>
                 </div>
+            </div>
                 {% if q %}
                     <br/>Searched: {{ q }}<br/>
                 {% endif %}
                 <a href="{% url 'search' %}?mode=advanced">Advanced</a>
 
-                <resource-listing sample="{{ resources }}" itemcount="{{ initialitemcount }}"
-                    :columns="gridColumns"
-                    :filter-key="searchQuery">
-                </resource-listing>
+                <div v-if="searchQuery">
+                    <resource-listing sample="{{ resources }}" itemcount="{{ initialitemcount }}"
+                        :columns="gridColumns"
+                        :filter-key="searchQuery">
+                    </resource-listing>
+                </div>
             </div>
 
             {#            TODO consider moving to props #}
@@ -37,10 +53,11 @@
 {% block extra_css %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/search.css"/>
+    <link href="{{ STATIC_URL }}css/vue-bootstrap-typeahead.0.2.6.css" rel="stylesheet">
 {% endblock %}
 
 {% block extra_js %}
     {{ block.super }}
     <script type="text/javascript" src="{{ STATIC_URL }}js/vue-2.6.10-dev.js"></script>
-
+    <script type="text/javascript" src="{{ STATIC_URL }}js/vue-bootstrap-typeahead.0.2.6.min.js"></script>
 {% endblock %}

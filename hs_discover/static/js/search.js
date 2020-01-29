@@ -92,6 +92,9 @@ let DiscoverApp = new Vue({
         searchQuery: '',
         gridColumns: ['name', 'link', 'type', 'availability', 'author', 'author_link', 'created', 'modified'],
     },
+    components: {
+        VueBootstrapTypeahead
+    },
     beforeMount: function() {
         this.$data.searchQuery = q;
     },
