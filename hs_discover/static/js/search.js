@@ -49,7 +49,8 @@ Vue.component('resource-listing', {
     computed: {
         filteredResources: function () {
             let sortKey = this.sortKey;
-            let filterKey = this.filterKey && this.filterKey.toLowerCase();
+            // let filterKey = this.filterKey && this.filterKey.toLowerCase();
+            let filterKey = false;
             let order = this.sortOrders[sortKey] || 1;
             let resources = JSON.parse(this.sample);  // TODO validation, security, error handling
             if (filterKey) {
@@ -69,7 +70,7 @@ Vue.component('resource-listing', {
             // Vue.set('numItems', 2);
             this.numItems = resources.length;
             return resources
-        }
+        },
     },
     filters: {
         capitalize: function (str) {

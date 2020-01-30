@@ -32,7 +32,7 @@ class SearchView(TemplateView):
                 "modified": str(result.modified)
             })
         vocab = [x for x in vocab if len(x) > 2]
-        vocab = list(set(vocab))
+        vocab = list(set(vocab))  # TODO validation, security, crashproof for the view
         vocab = sorted(vocab)
         initialitemcount = len(resources)
         resources = json.dumps(resources)
