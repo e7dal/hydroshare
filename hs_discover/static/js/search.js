@@ -49,17 +49,16 @@ Vue.component('resource-listing', {
     computed: {
         filteredResources: function () {
             let sortKey = this.sortKey;
-            // let filterKey = this.filterKey && this.filterKey.toLowerCase();
-            let filterKey = false;
+            let filterKey = this.filterKey && this.filterKey.toLowerCase();
             let order = this.sortOrders[sortKey] || 1;
             let resources = JSON.parse(this.sample);  // TODO validation, security, error handling
-            if (filterKey) {
-                resources = resources.filter(function (row) {
-                    return Object.keys(row).some(function (key) {
-                        return String(row[key]).toLowerCase().indexOf(filterKey) > -1
-                    })
-                })
-            }
+            // if (filterKey) {
+            //     resources = resources.filter(function (row) {
+            //         return Object.keys(row).some(function (key) {
+            //             return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+            //         })
+            //     })
+            // }
             if (sortKey) {
                 resources = resources.slice().sort(function (a, b) {
                     a = a[sortKey];
@@ -92,12 +91,14 @@ let DiscoverApp = new Vue({
     data: {
         searchQuery: '',
         gridColumns: ['name', 'link', 'type', 'availability', 'author', 'author_link', 'created', 'modified'],
+        q: ''
     },
     components: {
         VueBootstrapTypeahead
     },
     beforeMount: function() {
         this.$data.searchQuery = q;
+        this.$data.q = q;
     },
     methods: {
         searchClick: function (csrf_token) {

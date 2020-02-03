@@ -32,10 +32,11 @@
                     <br/>
                     Searched: <a href="/search/">{{ q }}</a>
                     <br/>
+                    Results: {{ itemcount }}<br/>
                 {% endif %}
                 <a href="{% url 'search' %}?mode=advanced">Advanced</a>
 
-                <div v-if="searchQuery">
+                <div v-if="q">
                     <resource-listing sample="{{ resources }}" itemcount="{{ initialitemcount }}"
                         :columns="gridColumns"
                         :filter-key="searchQuery">
