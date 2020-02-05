@@ -86,6 +86,9 @@ let DiscoverApp = new Vue({
         this.$data.searchQuery = q;
         this.$data.q = q;
     },
+    mounted: function() {
+        this.$refs.searchQuery.inputValue = this.searchQuery;
+    },
     methods: {
         searchClick: function (csrf_token) {
             window.location="/search/?q="+this.$data.searchQuery  // TODO validation or complete refactor anyway
@@ -106,6 +109,10 @@ let DiscoverApp = new Vue({
             //         console.log(response.responseText);
             //     }
             // });
+        },
+        clearSearch: function () {
+            this.searchQuery = '';
+            this.$refs.searchQuery.inputValue = '';
         }
     }
 });

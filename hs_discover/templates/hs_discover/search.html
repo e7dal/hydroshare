@@ -23,15 +23,10 @@
                                 placeholder="">
                             </vue-bootstrap-typeahead>
                             <span class="glyphicon glyphicon-search search-icon"></span>
+                            <span @click="clearSearch()" class="glyphicon glyphicon-remove-sign btn-clear-search c-pointer"></span>
                         </div>
                         <a href="{% url 'search' %}?mode=advanced">Advanced Search</a>
                     </div>
-                    {% if q %}
-                        <br/>
-                        Searched: <a href="/search/">{{ q }}</a>
-                        <br/>
-                        Results: {{ itemcount }}<br/>
-                    {% endif %}
 
                     <div v-if="q">
                         <resource-listing sample="{{ resources }}" itemcount="{{ initialitemcount }}"
@@ -50,7 +45,8 @@
                     {#        <p class="items-counter">#}
                     {#        {{ numItems }} items#}
                     {#        </p>#}
-                    <table class="table-hover table-striped resource-custom-table" id="items-discovered">
+                    <p v-if="filteredResources.length">Results: ${filteredResources.length}</p>
+                    <table v-if="filteredResources.length" class="table-hover table-striped resource-custom-table" id="items-discovered">
                         <thead>
                         <tr>
                             <th v-for="key in columns"
@@ -87,6 +83,8 @@
                         </tr>
                         </tbody>
                     </table>
+
+                    <p v-else>No results found.</p>
                 </div>
             </script>
 

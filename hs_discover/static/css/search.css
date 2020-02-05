@@ -3,6 +3,7 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-bottom: 2em;
 }
 
 #wrapper .search-field, #advanced-discover-search {
@@ -23,6 +24,7 @@
 #search input {
     width: 100%;
     padding-left: 25px;
+    padding-right: 25px;
 }
 
 #items-discovered {
@@ -40,4 +42,10 @@
 
 table tr th {
     cursor: pointer;
+}
+
+.btn-clear-search {
+    position: absolute;
+    top: 10px;
+    right: 8px;
 }

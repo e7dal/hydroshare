@@ -11,9 +11,11 @@
                 <div id="wrapper">
                     <div id="advanced-discover-search">
                         <div id="search" class="search-field">
-                            <span class="glyphicon glyphicon-search search-icon"></span>
                             <input class="form-control" name="query" v-model="searchQuery"
                                    @keyup.enter="searchClick('{{ csrf_token }}')">
+                            <span class="glyphicon glyphicon-search search-icon"></span>
+                            <span @click="clearSearch()"
+                                  class="glyphicon glyphicon-remove-sign btn-clear-search c-pointer"></span>
                         </div>
                     </div>
 

@@ -49,6 +49,9 @@ let AdvancedSearchApp = new Vue({
             //         console.log(response.responseText);
             //     }
             // });
+        },
+        clearSearch: function () {
+            this.searchQuery = '';
         }
     }
 });
