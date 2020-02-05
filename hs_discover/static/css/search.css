@@ -39,6 +39,11 @@ table tr th {
     cursor: pointer;
 }
 
+div.table-wrapper {
+    max-width: 100%;
+    overflow: auto;
+}
+
 .btn-clear-search {
     position: absolute;
     top: 10px;

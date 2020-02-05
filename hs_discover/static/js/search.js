@@ -1,7 +1,7 @@
 Vue.component('resource-listing', {
     delimiters: ['${', '}'],
     props:
-        ['sample', 'itemcount', 'columns', 'resources', 'filterKey'],
+        ['sample', 'itemcount', 'columns', 'labels', 'resources', 'filterKey'],
     template: '#resource-listing-template',
     data: function () {
         this.itemcount ? this.numItems = this.itemcount : this.numItems = 0;
@@ -14,7 +14,16 @@ Vue.component('resource-listing', {
             resTypeDict: {
                 // TODO: Expand this dictionary with the rest of the resource types
                 "Composite Resource": "composite",
-                "Model Program Resource": "modelprogram"
+                "Generic": "generic",
+                "Geopgraphic Raster": "geographicraster",
+                "Model Program Resource": "modelprogram",
+                "Collection Resource": "collection",
+                "Web App Resource": "webapp",
+                "Time Series": "timeseries",
+                "Model Instance Resource": "modelinstance",
+                "SWAT Model Instance Resource": "swat",
+                "MODFLOW Model Instance Resource": "modflow",
+                "Multidimensional (NetCDF)": "multidimensional"
 
             },
             sortOrders: sortOrders
@@ -42,11 +51,7 @@ Vue.component('resource-listing', {
                 })
             }
 
-            resources.map(function(res) {
-                res.availability = res.availability
-                    .map(function(av) {return vue.$options.filters.capitalize(av);})    // Capitalize first letter
-                    .join(", ");
-            });
+            console.log(resources);
 
             // Vue.set('numItems', 2);
             vue.numItems = resources.length;
@@ -76,7 +81,8 @@ let DiscoverApp = new Vue({
     el: '#discover-search',
     data: {
         searchQuery: '',
-        gridColumns: ['type', 'name', 'availability', 'author', 'created', 'modified'],
+        gridColumns: ['type', 'name', 'author', 'created', 'modified'],
+        gridColumnLabels: ['Type', 'Title', 'First Author', 'Date Created', 'Last Modified'],
         q: ''
     },
     components: {
