@@ -8,6 +8,7 @@ from haystack.query import SearchQuerySet
 class SearchView(TemplateView):
 
     def get(self, request, *args, **kwargs):
+        from django.template.defaultfilters import date, time
         q = request.GET.get('q') if request.GET.get('q') else ""
 
         sqs = SearchQuerySet().all()
@@ -33,8 +34,8 @@ class SearchView(TemplateView):
                 "type": result.resource_type_exact,
                 "author": result.author,
                 "author_link": result.author_url,
-                "created": str(result.created),
-                "modified": str(result.modified)
+                "created": date(result.created, "M d, Y") + " at " + time(result.created),
+                "modified": date(result.modified, "M d, Y") + " at " + time(result.modified)
             })
 
         itemcount = len(resources)

@@ -1,13 +1,28 @@
 #wrapper {
-  width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-#search {
+#wrapper .search-field, #advanced-discover-search {
+    flex-grow: 1;
+    max-width: 600px;
+    min-width: 400px;
     position: relative;
 }
 
+#wrapper .search-field div {
+    width: 100%;
+}
+
+#wrapper > a {
+    margin-left: 1em;
+}
+
 #search input {
-    padding-left: 25px; width: 600px;
+    width: 100%;
+    padding-left: 25px;
 }
 
 #items-discovered {
@@ -20,4 +35,9 @@
 
 #advanced-search-items {
     margin-top: 1em;
+    max-width: 600px;
+}
+
+table tr th {
+    cursor: pointer;
 }

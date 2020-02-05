@@ -1,40 +1,8 @@
 Vue.component('resource-listing', {
+    delimiters: ['${', '}'],
     props:
         ['sample', 'itemcount', 'columns', 'resources', 'filterKey'],
-    template: `
-        <div>
-<!--            <p class="items-counter">-->
-<!--                {{ numItems }} items-->
-<!--            </p>-->
-        <table class="table-hover table-striped resource-custom-table" id="items-discovered">
-            <thead>
-            <tr>
-                <th v-for="key in columns"
-                    @click="sortBy(key)"
-                    :class="{ active: sortKey == key }">
-                    {{ key | capitalize }}
-                    <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="entry in filteredResources">
-                <td>
-                    <a v-bind:href="entry.link">{{ entry.name }}</a>
-                </td>
-                <td></td>  <!-- temporary placeholder for link column, until header display approach is refactored -->
-                <td>{{ entry.type }}</td>
-                <td>{{ entry.availability }}</td>
-                <td>
-                    <a v-bind:href="entry.author_link">{{ entry.author }}</a>
-                </td>
-                <td></td>  <!-- temporary placeholder for link column, until header display approach is refactored -->
-                <td>{{ entry.created }}</td>
-                <td>{{ entry.modified }}</td>
-            </tr>
-            </tbody>
-        </table>
-        </div>`,
+    template: '#resource-listing-template',
     data: function () {
         this.itemcount ? this.numItems = this.itemcount : this.numItems = 0;
         let sortOrders = {};
@@ -43,13 +11,20 @@ Vue.component('resource-listing', {
         });
         return {
             sortKey: '',
+            resTypeDict: {
+                // TODO: Expand this dictionary with the rest of the resource types
+                "Composite Resource": "composite",
+                "Model Program Resource": "modelprogram"
+
+            },
             sortOrders: sortOrders
         }
     },
     computed: {
         filteredResources: function () {
+            let vue = this;
             let sortKey = this.sortKey;
-            let filterKey = this.filterKey && this.filterKey.toLowerCase();
+            // let filterKey = this.filterKey && this.filterKey.toLowerCase();
             let order = this.sortOrders[sortKey] || 1;
             let resources = JSON.parse(this.sample);  // TODO validation, security, error handling
             // if (filterKey) {
@@ -66,8 +41,15 @@ Vue.component('resource-listing', {
                     return (a === b ? 0 : a > b ? 1 : -1) * order
                 })
             }
+
+            resources.map(function(res) {
+                res.availability = res.availability
+                    .map(function(av) {return vue.$options.filters.capitalize(av);})    // Capitalize first letter
+                    .join(", ");
+            });
+
             // Vue.set('numItems', 2);
-            this.numItems = resources.length;
+            vue.numItems = resources.length;
             return resources
         },
     },
@@ -76,6 +58,9 @@ Vue.component('resource-listing', {
             if (str !== "link" && str !== "author_link") {  // TODO instead of iterating through headings, explicitly choose and display
                 return str.charAt(0).toUpperCase() + str.slice(1)
             }
+        },
+        date: function (date) {
+            return date;
         }
     },
     methods: {
@@ -87,10 +72,11 @@ Vue.component('resource-listing', {
 });
 
 let DiscoverApp = new Vue({
+    delimiters: ['${', '}'],
     el: '#discover-search',
     data: {
         searchQuery: '',
-        gridColumns: ['name', 'link', 'type', 'availability', 'author', 'author_link', 'created', 'modified'],
+        gridColumns: ['type', 'name', 'availability', 'author', 'created', 'modified'],
         q: ''
     },
     components: {

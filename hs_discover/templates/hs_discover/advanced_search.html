@@ -5,66 +5,67 @@
     <input type="hidden" id="static-url" value="{{ STATIC_URL }}">
     <div class="container" id="discover-main">
         <div class="row">
-            <div class="col-12">
-                <h2 class="page-title">Advanced Search</h2>
-            </div>
+            <div class="col-xs-12">
+                <h2 class="page-title">Discover</h2>
 
-            <div id="advanced-discover-search">
-                <div id="search" class="search-field">
-                    <span class="glyphicon glyphicon-search search-icon"></span>
-                    <input class="form-control" name="query" v-model="searchQuery"
-                           @keyup.enter="searchClick('{{ csrf_token }}')">
+                <div id="wrapper">
+                    <div id="advanced-discover-search">
+                        <div id="search" class="search-field">
+                            <span class="glyphicon glyphicon-search search-icon"></span>
+                            <input class="form-control" name="query" v-model="searchQuery"
+                                   @keyup.enter="searchClick('{{ csrf_token }}')">
+                        </div>
+                    </div>
+
+                    <a href="{% url 'search' %}">Basic</a>
                 </div>
+
+                <form id="advanced-search-items">
+                    <div class="control-group">
+                        <fieldset>
+                            <label for="Author" class="control-label">Author</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" name="Author">
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <label for="Contributor" class="control-label">Contributor</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" name="Contributor">
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <label for="Owner" class="control-label">Owner</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" name="Owner">
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <label for="Content Type" class="control-label">Content Type</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" name="Content Type">
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <label for="Subject" class="control-label">Subject</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" name="Subject">
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <label for="Availability" class="control-label">Availability</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" name="Availability">
+                            </div>
+                        </fieldset>
+                    </div>
+                </form>
             </div>
-
-             <a href="{% url 'search' %}">Basic</a>
-
-            <form id="advanced-search-items">
-                <div class="control-group">
-                    <fieldset>
-                        <label for="Author" class="control-label">Author</label>
-                        <div class="controls">
-                            <input class="form-control" type="text" name="Author">
-                        </div>
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="Contributor" class="control-label">Contributor</label>
-                        <div class="controls">
-                            <input class="form-control" type="text" name="Contributor">
-                        </div>
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="Owner" class="control-label">Owner</label>
-                        <div class="controls">
-                            <input class="form-control" type="text" name="Owner">
-                        </div>
-                    </fieldset>
-
-                     <fieldset>
-                        <label for="Content Type" class="control-label">Content Type</label>
-                        <div class="controls">
-                            <input class="form-control" type="text" name="Content Type">
-                        </div>
-                    </fieldset>
-
-                     <fieldset>
-                        <label for="Subject" class="control-label">Subject</label>
-                        <div class="controls">
-                            <input class="form-control" type="text" name="Subject">
-                        </div>
-                    </fieldset>
-
-                     <fieldset>
-                        <label for="Availability" class="control-label">Availability</label>
-                        <div class="controls">
-                            <input class="form-control" type="text" name="Availability">
-                        </div>
-                    </fieldset>
-                </div>
-            </form>
-
             <script type="text/javascript" src="{{ STATIC_URL }}js/advanced-search.js"></script>
         </div>
     </div>
@@ -78,5 +79,4 @@
 {% block extra_js %}
     {{ block.super }}
     <script type="text/javascript" src="{{ STATIC_URL }}js/vue-2.6.10-dev.js"></script>
-
 {% endblock %}
