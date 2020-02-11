@@ -11,18 +11,21 @@ class SearchView(TemplateView):
         from django.template.defaultfilters import date, time
         q = request.GET.get('q') if request.GET.get('q') else ""
 
-        sqs = SearchQuerySet().all()
+        sqs = SearchQuerySet()
 
         vocab = []
         for result in sqs:
-            vocab.extend(result.title.split(' '))
+            if result.title:
+                vocab.extend(result.title.split(' '))
+            if result.subject:
+                vocab.extend(result.subject)
 
         vocab = [x for x in vocab if len(x) > 2]
         vocab = list(set(vocab))  # TODO validation, security, crashproof for the view
         vocab = sorted(vocab)
 
         if q:
-            sqs = SearchQuerySet().filter(content=q)
+            sqs = sqs.filter(content=q)
 
         resources = []
         # TODO error handling and try except
@@ -34,6 +37,7 @@ class SearchView(TemplateView):
                 "type": result.resource_type_exact,
                 "author": result.author,
                 "author_link": result.author_url,
+                "abstract": result.abstract,
                 "created": date(result.created, "M d, Y") + " at " + time(result.created),
                 "modified": date(result.modified, "M d, Y") + " at " + time(result.modified)
             })
