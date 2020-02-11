@@ -25,7 +25,7 @@ class SearchView(TemplateView):
         vocab = sorted(vocab)
 
         if q:
-            sqs = sqs.filter(content=q)
+            sqs = sqs.filter(content=q).boost('keyword', 2.0)
 
         resources = []
         # TODO error handling and try except
