@@ -84,12 +84,13 @@ server {
         if (-f $document_root/maintenance_on.html) {
             return 503;
         }
-        try_files $uri @proxy;
+        # This binds the @django pseudo-location, which is processed below
+        try_files $uri @django;
         AUTH_BASIC;
         AUTH_BASIC_USER_FILE;
     }
 
-    location @proxy {
+    location @django {
         proxy_pass  http://unix:/hs_tmp/gunicorn.sock;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
