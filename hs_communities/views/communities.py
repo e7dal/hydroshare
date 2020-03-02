@@ -33,7 +33,7 @@ class CommunityView(TemplateView):
         raw_groups = community.groups_with_public_resources()
         groups = []
 
-        if community.name == 'CZO National':
+        if community.name == 'CZO National Community':
             banner_url = 'czo-logo-wide.png'
         else:
             banner_url = None
@@ -111,9 +111,9 @@ class MyCommunitiesView(TemplateView):
                 g.join_request = g.gaccess.group_membership_requests.filter(request_from=u).first() or \
                                  g.gaccess.group_membership_requests.filter(invitation_to=u).first()
 
-        comms_member_of = [self.group_to_community(g, Community.objects.all()) for g in grps_member_of]
+        comms_member_of = [self.group_to_community(g, Community.objects.all()) for g in grps_member_of]  # groups could be in same community
         return {
-            'communities_list': [c for c in comms_member_of if c is not None]
+            'communities_list': list(set([c for c in comms_member_of if c is not None]))  # could repeat communities if groups are each in the same community
         }
 
 
