@@ -33,6 +33,11 @@ class CommunityView(TemplateView):
         raw_groups = community.groups_with_public_resources()
         groups = []
 
+        if community.name == 'CZO National':
+            banner_url = 'czo-logo-wide.png'
+        else:
+            banner_url = None
+
         for g in raw_groups:
             res_count = len([r for r in community_resources if r.group_name == g.name])
             groups.append({'id': str(g.id), 'name': str(g.name), 'res_count': str(res_count)})
@@ -51,6 +56,8 @@ class CommunityView(TemplateView):
 
         return {
             'community_resources': community_resources,
+            'community_name': community.name,
+            'community_banner': banner_url,
             'groups': groups,
             'grpfilter': grpfilter,
             'is_admin': is_admin

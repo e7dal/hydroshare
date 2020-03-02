@@ -1,6 +1,6 @@
 {% extends "pages/page.html" %}
 {% load comment_tags %}
-{% block meta_title %}CZO Community {% endblock %}
+{% block meta_title %}{{ community_name }} {% endblock %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.dataTables.min.css">
 {% endblock %}
@@ -22,8 +22,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">
-                    <div><a href="http://criticalzone.org"><img src="{{ STATIC_URL }}img/czo-logo-wide.png"
-                                                                alt="CZO National"></a></div>
+                    <div><a href="http://criticalzone.org"><img src="{{ STATIC_URL }}img/{{ banner_url }}"
+                                                                alt="{{ community_name }}"></a></div>
                 </div>
                 <div class="col-sm-7">
                 </div>
